@@ -9,23 +9,20 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      elevation: 2,
-      highlightElevation: 5,
-      color: Colors.blue,
-      shape: StadiumBorder(),
-      child: Container(
-        width: double.infinity,
-        height: 55,
-        child: Center(
-          child: Text(
-            titulo,
-            style: TextStyle(color: Colors.white, fontSize: 20),
+        elevation: 2,
+        highlightElevation: 5,
+        color: Colors.blue,
+        shape: StadiumBorder(),
+        child: Container(
+          width: double.infinity,
+          height: 55,
+          child: Center(
+            child: Text(
+              titulo,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
           ),
         ),
-      ),
-      onPressed: () {
-        onPressed();
-      },
-    );
+        onPressed: onPressed);
   }
 }

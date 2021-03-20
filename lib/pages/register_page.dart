@@ -1,9 +1,12 @@
+import 'package:chat/helpers/showAlert.dart';
+import 'package:chat/services/auth_services.dart';
 import 'package:chat/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat/widgets/labels.dart';
 import 'package:chat/widgets/logo.dart';
 import 'package:chat/widgets/input.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -48,6 +51,8 @@ class _Form extends StatefulWidget {
 class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
+    final authServices = Provider.of<AuthServices>(context);
+
     final nameController = new TextEditingController();
     final textController = new TextEditingController();
     final passController = new TextEditingController();
@@ -74,11 +79,22 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           Button(
-            titulo: 'Ingresa',
-            onPressed: () {
-              print('Email: ' + textController.text);
-              print('Password: ' + passController.text);
-            },
+            titulo: 'Crear Cuenta',
+            onPressed: authServices.autenticando
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    final registroOk = await authServices.register(
+                        nameController.text,
+                        textController.text.trim(),
+                        passController.text.trim());
+
+                    if (registroOk == true) {
+                      Navigator.pushReplacementNamed(context, 'usuarios');
+                    } else {
+                      mostrarAlerta(context, 'Registro Incorrecto', registroOk);
+                    }
+                  },
           )
         ],
       ),
