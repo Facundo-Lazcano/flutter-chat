@@ -1,5 +1,6 @@
 import 'package:chat/helpers/showAlert.dart';
 import 'package:chat/services/auth_services.dart';
+import 'package:chat/services/socket_services.dart';
 import 'package:chat/widgets/button.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authServices = Provider.of<AuthServices>(context);
+    final socketService = Provider.of<SocketService>(context);
     final textController = new TextEditingController();
     final passController = new TextEditingController();
     return Container(
@@ -80,6 +82,7 @@ class __FormState extends State<_Form> {
                         textController.text.trim(), passController.text.trim());
 
                     if (loginOk) {
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       mostrarAlerta(context, 'Login Incorrecto',
